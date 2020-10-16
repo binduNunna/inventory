@@ -1,0 +1,47 @@
+<div class="container pb-0">
+  <div *ngIf="!showAddForm" class="row mb-5">
+    <div class="col-md-7 p-0 ">
+      <h2>Inventory List</h2>
+    </div>
+    <div class="col-md-5 text-right p-0">
+      <button class="btn btn-primary"  (click)="openAddForm()">Add Inventory</button>
+    </div>
+  </div>
+<!-- List of inventories -->
+  <div *ngIf="!showAddForm">
+    <div *ngIf="inventoryArr.length > 0">
+      <div class="row inventory-container" *ngFor="let inventory of inventoryArr">
+        <div class="col-md-12">
+          <div class="row mb-4 border-bottom pb-4 align-items-center">
+            <div class="col-md-2" (click)="viewInventory(inventory)">
+              <div action="upload.php" method="post" enctype="multipart/form-data">
+                <img class="user-profile-img class"
+                  [src]="inventory.image ? inventory.image : 'assets/images/noImageAvailable.png'">
+              </div>
+            </div>
+            <div class="col-md-10 pl-0">
+              <div class="row align-items-center">
+                <div class="col-md-9" (click)="viewInventory(inventory)">
+                  <p class="mb-1">Name: {{inventory.name}}</p>
+                  <p class="mb-0">Price: {{inventory.price}}</p>
+                </div>
+                <div class="col-md-3 text-right">
+                  <i class="fa fa-trash-o" style="color: red;font-size: 30px" (click)="deleteInventory(inventory)"
+                    aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+   <div style="margin: 220px;" *ngIf="!inventoryArr.length">
+        <i style="font-size: 62px;
+        margin-left: 80px;" class="fa fa-frown-o" aria-hidden="true"></i>
+        <p style="font-style: italic;">No Inventories Available.To add an inventory please click on the above add button</p>
+   </div>
+  </div>
+</div>
+<!-- Add Inventory selector -->
+<app-add-inventory *ngIf="showAddForm" [editData]="viewInventoryData" (dataEvent)="receiveData($event)">
+</app-add-inventory>

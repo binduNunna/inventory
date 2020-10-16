@@ -1,0 +1,48 @@
+<div class="container p-0">
+  <h4>{{editData.view ? 'View Inventory' : 'Add Inventory'}}</h4>
+  <form #Form="ngForm">
+
+    <!-- Image -->
+    <div action="upload.php" method="post" enctype="multipart/form-data" class="uplod-img">
+      <div for="fileToUpload" class="img-wrap">
+        <img class="image" [src]="Logo? Logo :'assets/images/noImageAvailable.png'">
+        <div>
+          <input type="file" [disabled]="editData.view" accept="image/*" (change)="fileChangeEvent($event, template)" id="userProfile">
+          <i  class="fa fa-camera" style="color: red;font-size: 25px" (click)="openFile()" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Name -->
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" required [(ngModel)]="inventory.name" name="name"
+        #name="ngModel" [disabled]="editData.view">
+      <div class="error-block text-left" *ngIf="((submitted || name.touched) && name.invalid)">
+        Enter Name
+      </div>
+    </div>
+
+    <!-- Price -->
+    <div class="form-group">
+      <label for="price">Price</label>
+      <input type="text" class="form-control" id="price" [(ngModel)]="inventory.price" (keypress)="commonService.AllowNumbers($event)"
+        name="price" required #price="ngModel" [disabled]="editData.view">
+      <div class="error-block text-left" *ngIf="((submitted || price.touched) && price.invalid)">
+        Enter price
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea type="text" class="form-control" id="description" [(ngModel)]="inventory.description" name="description"
+        required #description="ngModel" [disabled]="editData.view" rows="5"></textarea>
+      <div class="error-block text-left" *ngIf="((submitted || description.touched) && description.invalid)">
+        Enter description
+      </div>
+    </div>
+    <button style="margin-left: 361px;" type="button" class="btn btn-primary mt-4"
+      (click)="editData.view ? back() : addInventory(Form, inventory)">{{editData.view ? 'Back To Listing' : 'Add Inventory'}}</button>
+  </form>
+</div>
